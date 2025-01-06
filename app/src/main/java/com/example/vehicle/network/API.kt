@@ -1,12 +1,15 @@
 package com.example.vehicle.network
 
-import com.example.vehicle.model.VehicleData
+import com.example.vehicle.model.EvSalesGraphData
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 interface API {
 
-    @GET("explore/v2.1/catalog/datasets/india-vehicle-sales-trends/records")
-    suspend fun getResponse() : Response<VehicleData>
+    @GET("research/ev-sales-graph?format=json")
+    suspend fun getResponse(
+        @Query("timeline") timeline: String
+    ): Response<EvSalesGraphData>
 }

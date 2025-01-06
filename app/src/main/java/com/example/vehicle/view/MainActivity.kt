@@ -33,10 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
 import com.example.vehicle.common.DataViewModelFactory
 import com.example.vehicle.common.UIState
-import com.example.vehicle.model.VehicleData
+import com.example.vehicle.model.Data
+import com.example.vehicle.model.EvSalesGraphData
 import com.example.vehicle.repository.DataRepository
 import com.example.vehicle.ui.theme.VehicleTheme
 import com.example.vehicle.viewmodel.DataViewModel
@@ -87,9 +87,10 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                                 is UIState.Success -> {
-                                    val vehicleData = (uiState as UIState.Success<VehicleData>).data
+                                    val vehicleData = (uiState as UIState.Success<EvSalesGraphData>).data
                                     LineChartSample(
                                         modifier = Modifier.padding(innerPadding),
+                                        vehicleData.data
                                     )
                                     Spacer(modifier = Modifier.height(100.dp))
                                     PieChartSample(
@@ -164,7 +165,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun LineChartSample(modifier: Modifier = Modifier) {
+    fun LineChartSample(modifier: Modifier = Modifier, data: List<Data>) {
         LineChart(
             modifier = Modifier
                 .fillMaxWidth()
