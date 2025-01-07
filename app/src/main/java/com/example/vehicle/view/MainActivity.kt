@@ -32,7 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextGeometricTransform
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.vehicle.common.DataViewModelFactory
 import com.example.vehicle.common.UIState
 import com.example.vehicle.model.Data
@@ -48,6 +50,7 @@ import ir.ehsannarmani.compose_charts.models.HorizontalIndicatorProperties
 import ir.ehsannarmani.compose_charts.models.LabelHelperProperties
 import ir.ehsannarmani.compose_charts.models.Line
 import ir.ehsannarmani.compose_charts.models.Pie
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     private val dataRepository = DataRepository()
@@ -90,7 +93,7 @@ class MainActivity : ComponentActivity() {
                                     val vehicleData = (uiState as UIState.Success<EvSalesGraphData>).data
                                     LineChartSample(
                                         modifier = Modifier.padding(innerPadding),
-                                        vehicleData.data
+                                        vehicleData.data.dropLast(1)
                                     )
                                     Spacer(modifier = Modifier.height(100.dp))
                                     PieChartSample(
@@ -169,32 +172,40 @@ class MainActivity : ComponentActivity() {
         LineChart(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp)
+                .height(270.dp)
                 .padding(horizontal = 22.dp),
             data = remember {
-                listOf(
+                data.map { data ->
                     Line(
-                        label = "EV Sales",
-                        values = listOf(28.0, 41.0, 5.0, 10.0, 35.0),
-                        color = SolidColor(Color(0xFF23af92)),
-                        firstGradientFillColor = Color(0xFF2BC0A1).copy(alpha = .5f),
+                        label = data.category,
+                        values = data.y.map { it.toDouble() / 1000},
+                        color = SolidColor(Color(
+                            red = Random.nextFloat(),
+                            green = Random.nextFloat(),
+                            blue = Random.nextFloat(),
+                            alpha = 1.0f
+                        )),
+                        firstGradientFillColor = Color.Transparent,
                         secondGradientFillColor = Color.Transparent,
                         strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                         gradientAnimationDelay = 1000,
                         drawStyle = DrawStyle.Stroke(width = 2.dp),
                     )
-                )
+                }.toMutableList()
             },
             animationMode = AnimationMode.Together(delayBuilder = {
                 it * 500L
             }),
             labelHelperProperties = LabelHelperProperties(
-                textStyle = TextStyle.Default.copy(color = MaterialTheme.colorScheme.onSurface),
+                textStyle = TextStyle.Default.copy(
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontSize = 12.sp
+                ),
             ),
             indicatorProperties = HorizontalIndicatorProperties(
                 textStyle = TextStyle.Default.copy(color = MaterialTheme.colorScheme.onSurface),
                 padding = 16.dp
-            )
+            ),
         )
     }
 }
