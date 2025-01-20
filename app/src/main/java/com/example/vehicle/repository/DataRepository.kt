@@ -5,5 +5,11 @@ import com.example.vehicle.network.RetrofitInstance
 
 
 class DataRepository {
-    suspend fun getResponse(timeline: Timeline) = RetrofitInstance.api.getResponse(timeline.value)
+    suspend fun getEVSalesGraphDataResponse(timeline: Timeline) = RetrofitInstance.api.getEVGraphData(timeline.value)
+    suspend fun getEVTotalSalesDataResponse() = RetrofitInstance.api.getEVTotalSalesData()
+    suspend fun getEVTotalLastMonthSalesDataResponse() = RetrofitInstance.api.getTotalLastMonthSalesData()
+    suspend fun getLastMonthSalesDataResponse() = RetrofitInstance.api.getLastMonthSalesData()
+    suspend fun getTotalChargeStationsDataResponse() = RetrofitInstance.api.getTotalChargeStationsData()
+    suspend fun getAverageSupplyTariffDataResponse() = RetrofitInstance.api.getAverageSupplyTariffData()
+    suspend fun getSalesManufacturersDataResponse() = RetrofitInstance.api.getSalesManufacturersData()
 }

@@ -1,4 +1,4 @@
-package com.example.vehicle.model
+package com.example.vehicle.model.evGraph
 
 import com.google.gson.annotations.SerializedName
 
